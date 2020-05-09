@@ -7,30 +7,35 @@
 const BrewMethods = [
   {
     name: 'French Press',
+    slug: 'french-press',
     ratio: 15,
     guide: '',
     tips: [],
   },
   {
     name: 'Chemex',
+    slug: 'chemex',
     ratio: 16,
     guide: '',
     tips: [],
   },
   {
     name: 'Pour Over',
+    slug: 'pour-over',
     ratio: 17,
     guide: '',
     tips: [],
   },
   {
     name: 'Moka Pot',
+    slug: 'moka-pot',
     ratio: 7,
     guide: '',
     tips: [],
   },
   {
     name: 'Aeropress',
+    slug: 'aeropress',
     ratio: 12,
     guide: '',
     tips: [],
