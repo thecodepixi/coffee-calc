@@ -36,3 +36,5 @@ const BrewMethods = [
     tips: [],
   },
 ];
+
+module.exports = BrewMethods;
