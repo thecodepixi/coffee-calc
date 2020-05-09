@@ -4,7 +4,7 @@
 // ratio usage example: if you want to make a french press of 16oz of coffee you need 16*29.6 / 15 grams of coffee or a 1:15 ratio of coffee to water in grams.
 // should guide info be written in MD for rendering?
 
-const BrewMethods = [
+module.exports = [
   {
     name: 'French Press',
     slug: 'french-press',
@@ -41,5 +41,3 @@ const BrewMethods = [
     tips: [],
   },
 ];
-
-module.exports = BrewMethods;
