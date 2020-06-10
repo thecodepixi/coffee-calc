@@ -7,6 +7,12 @@ router.get('/', (req, res) => {
     .catch((err) => res.status(400).json('Error: ' + err));
 });
 
+router.get('/:id', (req, res) => {
+  User.findById(req.params.id)
+    .then((user) => res.json(user))
+    .catch((err) => res.status(400).json('Error: ' + err));
+});
+
 router.post('/new', (req, res) => {
   let name = req.body.name;
   let username = req.body.username;
