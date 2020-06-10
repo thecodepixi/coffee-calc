@@ -9,11 +9,6 @@ const brewMethodSchema = new Schema(
       unique: true,
       trim: true,
     },
-    slug: {
-      type: String,
-      unique: true,
-      trim: true,
-    },
     ratio: {
       type: Number,
       required: true,
@@ -28,4 +23,6 @@ const brewMethodSchema = new Schema(
   }
 );
 
-module.exports = brewMethodSchema;
+const BrewMethod = mongoose.model('BrewMethod', brewMethodSchema);
+
+module.exports = BrewMethod;
