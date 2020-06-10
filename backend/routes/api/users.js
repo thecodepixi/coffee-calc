@@ -67,20 +67,16 @@ router.post('/', (req, res) => {
     .catch((err) => res.status(400).json('Error: ' + err));
 });
 
-//will check password against bcrypt and send back JWT
+//will check password against bcrypt. Should I use JWTs for client side auth?
 router.post('/login', (req, res) => {
   if (!req.body.password || !req.body.username) {
-    res.status(400).json('Please provide both a username and password.');
-    return;
+    return res.status(400).json('Please provide both a username and password.');
   }
 
   User.findOne({ username: req.body.username })
     .then((user) => {
-      if (user) {
-        if (bcrypt.compareSync(req.body.password, user.password)) {
-          res.json(`${user.username} logged in`);
-          return;
-        }
+      if (user && bcrypt.compareSync(req.body.password, user.password)) {
+        res.json(`${user.username} logged in`);
       } else {
         res.status(400).json('Incorrect username or password. Try Again.');
       }
