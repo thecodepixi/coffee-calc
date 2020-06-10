@@ -15,7 +15,37 @@ router.get('/:id', (req, res) => {
     .catch((err) => res.status(400).json('Error: ' + err));
 });
 
-router.post('/new', (req, res) => {
+router.get('/:id/brews', (req, res) => {
+  User.findById(req.params.id)
+    .then((user) => res.json(user.brews))
+    .catch((err) => res.status(400).json('Error: ' + err));
+});
+
+router.post('/:id/brews', (req, res) => {
+  let newBrew = {
+    coffee: {
+      name: req.body.coffee.name,
+      company: req.body.coffee.company,
+      roast: req.body.coffee.roast,
+    },
+    method_used: req.body.method_used,
+    ratio: req.body.ratio,
+    rating: Number(req.body.rating),
+    liked: Boolean(req.body.liked),
+  };
+
+  User.findById(req.params.id)
+    .then((user) => {
+      user.brews.push(newBrew);
+      user
+        .save()
+        .then((user) => res.json(user))
+        .catch((err) => console.error(err));
+    })
+    .catch((err) => res.status(400).json('Error: ' + err));
+});
+
+router.post('/', (req, res) => {
   let name = req.body.name;
   let username = req.body.username;
   //initialize password to empty string
