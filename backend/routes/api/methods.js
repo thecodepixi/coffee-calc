@@ -1,64 +1,36 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
+let BrewMethod = require('../../models/BrewMethod.model');
 
 //get all info for all methods
 router.get('/', (req, res) => {
-  res.json(BrewMethods);
+  BrewMethod.find()
+    .then((brewMethods) => res.json(brewMethods))
+    .catch((err) => res.status(400).json('Error: ' + err));
 });
 
-router.get('/:method_name', (req, res) => {
-  let method = BrewMethods.some(
-    (method) => method.slug === req.params.method_name
-  );
-  if (method) {
-    res.json(
-      BrewMethods.filter((method) => req.params.method_name === method.slug)
-    );
-  } else {
-    res.json({
-      msg: `Sorry a brewing method with the name "${req.params.method_name
-        .split('-')
-        .join(' ')}" could not be found.`,
-    });
-  }
+router.get('/:id', (req, res) => {
+  BrewMethod.findById(req.params.id)
+    .then((brewMethod) => res.json(brewMethod))
+    .catch((err) => res.status(400).json('Error: ' + err));
 });
 
-router.put('/:method_name', (req, res) => {
-  let method = BrewMethods.some(
-    (method) => method.slug === req.params.method_name
-  );
+router.post('/new', (req, res) => {
+  const name = req.body.name;
+  const ratio = Number(req.body.ratio);
+  const guide = req.body.guide;
+  const tips = req.body.tips;
 
-  if (method) {
-    //filter the method to be updated
-    let methodToUpdate = BrewMethods.filter(
-      (method) => method.slug === req.params.method_name
-    )[0];
+  const newBrewMethod = new BrewMethod({
+    name,
+    ratio,
+    guide,
+    tips,
+  });
 
-    //update method with new info
-    methodToUpdate.name = req.body.method.name
-      ? req.body.method.name
-      : methodToUpdate.name;
-    methodToUpdate.ratio = req.body.method.ratio
-      ? req.body.method.ratio
-      : methodToUpdate.ratio;
-    methodToUpdate.guide = req.body.method.guide
-      ? req.body.method.guide
-      : methodToUpdate.guide;
-    //check for added tips and add them to the array
-    req.body.method.tips
-      ? (methodToUpdate.tips = methodToUpdate.tips.concat(req.body.method.tips))
-      : null;
-
-    res.json(
-      BrewMethods.filter((method) => method.slug === req.params.method_name)
-    );
-  } else {
-    res.json({
-      msg: `Sorry a brewing method with the name ${req.params.method_name
-        .split('-')
-        .join(' ')} could not be found.`,
-    });
-  }
+  newBrewMethod
+    .save()
+    .then(() => res.json('New Brew Method added!'))
+    .catch((err) => res.status(400).json('Error: ' + err));
 });
 
 module.exports = router;

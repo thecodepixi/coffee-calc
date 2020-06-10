@@ -11,11 +11,10 @@ const brewMethodSchema = new Schema(
     },
     slug: {
       type: String,
-      required: true,
       unique: true,
       trim: true,
     },
-    ration: {
+    ratio: {
       type: Number,
       required: true,
     },
