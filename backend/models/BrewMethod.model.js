@@ -23,6 +23,13 @@ const brewMethodSchema = new Schema(
   }
 );
 
+brewMethodSchema.add({
+  slug: {
+    type: String,
+    unique: true,
+  },
+});
+
 const BrewMethod = mongoose.model('BrewMethod', brewMethodSchema);
 
 module.exports = BrewMethod;

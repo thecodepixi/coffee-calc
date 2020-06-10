@@ -1,4 +1,5 @@
 const router = require('express').Router();
+let methodSlug = require('../../helpers/brewMethodHelpers');
 let BrewMethod = require('../../models/BrewMethod.model');
 
 //get all info for all methods
@@ -19,12 +20,14 @@ router.post('/new', (req, res) => {
   const ratio = Number(req.body.ratio);
   const guide = req.body.guide;
   const tips = req.body.tips;
+  const slug = methodSlug(req.body.name);
 
   const newBrewMethod = new BrewMethod({
     name,
     ratio,
     guide,
     tips,
+    slug,
   });
 
   newBrewMethod
