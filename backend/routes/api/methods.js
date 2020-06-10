@@ -9,6 +9,18 @@ router.get('/', (req, res) => {
     .catch((err) => res.status(400).json('Error: ' + err));
 });
 
+router.get('/:slug', (req, res, next) => {
+  BrewMethod.findOne({ slug: req.params.slug })
+    .then((brewMethod) => {
+      if (brewMethod) {
+        res.json(brewMethod);
+      } else {
+        return next();
+      }
+    })
+    .catch((err) => res.status(400).json('Error: ' + err));
+});
+
 router.get('/:id', (req, res) => {
   BrewMethod.findById(req.params.id)
     .then((brewMethod) => res.json(brewMethod))
