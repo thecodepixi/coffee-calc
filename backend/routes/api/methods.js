@@ -33,4 +33,17 @@ router.post('/new', (req, res) => {
     .catch((err) => res.status(400).json('Error: ' + err));
 });
 
+router.delete('/:id', (req, res) => {
+  BrewMethod.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Brew Method Deleted'))
+    .catch((err) => res.status(400).json('Error: ' + err));
+});
+
+router.put('/:id/update', (req, res) => {
+  let update = req.body;
+  BrewMethod.findOneAndUpdate({ _id: req.params.id }, update, { new: true })
+    .then((updatedMethod) => res.json(updatedMethod))
+    .catch((err) => res.status(400).json('Error: ' + err));
+});
+
 module.exports = router;

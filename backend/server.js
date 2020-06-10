@@ -18,6 +18,7 @@ mongoose.connect(uri, {
   useCreateIndex: true,
 });
 const connection = mongoose.connection;
+mongoose.set('useFindAndModify', false);
 
 connection.once('open', () => {
   console.log('MongoDB connection established');
