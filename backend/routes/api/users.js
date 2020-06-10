@@ -69,12 +69,20 @@ router.post('/', (req, res) => {
 
 //will check password against bcrypt and send back JWT
 router.post('/login', (req, res) => {
+  if (!req.body.password || !req.body.username) {
+    res.status(400).json('Please provide both a username and password.');
+    return;
+  }
+
   User.findOne({ username: req.body.username })
     .then((user) => {
-      if (bcrypt.compareSync(req.body.password, user.password)) {
-        return res.json(`${user.username} logged in (but not really)`);
+      if (user) {
+        if (bcrypt.compareSync(req.body.password, user.password)) {
+          res.json(`${user.username} logged in`);
+          return;
+        }
       } else {
-        return res.json('Incorrect username or password. Try Again.');
+        res.status(400).json('Incorrect username or password. Try Again.');
       }
     })
     .catch((err) => res.status(400).json('Error: ' + err));
