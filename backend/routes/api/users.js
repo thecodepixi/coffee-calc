@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const User = require('../../models/User.model');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 router.get('/', (req, res) => {
   User.find()
@@ -16,9 +18,11 @@ router.get('/:id', (req, res) => {
 router.post('/new', (req, res) => {
   let name = req.body.name;
   let username = req.body.username;
-  //Hash with bcrypt and authenticate with JWT later
-  let password = req.body.password;
+  //initialize password to empty string
+  let password = bcrypt.hashSync(req.body.password, saltRounds);
   let email = req.body.email;
+
+  console.log('Password: ', password);
 
   let newUser = new User({
     name,
@@ -35,9 +39,9 @@ router.post('/new', (req, res) => {
 
 //will check password against bcrypt and send back JWT
 router.post('/login', (req, res) => {
-  User.findOne({ username: req.body.username, password: req.body.password })
+  User.findOne({ username: req.body.username })
     .then((user) => {
-      if (user) {
+      if (bcrypt.compareSync(req.body.password, user.password)) {
         return res.json(`${user.username} logged in (but not really)`);
       } else {
         return res.json('Incorrect username or password. Try Again.');
