@@ -25,8 +25,10 @@ connection.once('open', () => {
 });
 
 const brewMethodRouter = require('./routes/api/methods');
+const userRouter = require('./routes/api/users');
 
 app.use('/api/brew-methods', brewMethodRouter);
+app.use('/api/users', userRouter);
 
 const PORT = process.env.PORT || 5000;
 
